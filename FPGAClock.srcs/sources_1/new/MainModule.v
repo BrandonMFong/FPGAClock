@@ -1,12 +1,14 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
+
 // Engineer: Brandon Fong
-//////////////////////////////////////////////////////////////////////////////////
 
 
-module MainModule;
-    initial begin
-        $display ("Hello World!");
-        #10 $finish;
-    end
+module MainModule
+(
+    input sw,
+    output led
+);
+
+assign led = sw;
+
 endmodule

@@ -6,9 +6,16 @@
 *.runs
 *.jobs
 synth_1/*
+*.ip_user_files
+*.sim
+*.hw
+*.hbs
 
 # Documents
 docs/*.pdf
 
 # .vcode
 *.code-workspace
+
+# archive
+archive/*
