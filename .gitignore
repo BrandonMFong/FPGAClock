@@ -1,0 +1,14 @@
+
+# Project Files
+
+# Xilinx files
+*.cache 
+*.runs
+*.jobs
+synth_1/*
+
+# Documents
+docs/*.pdf
+
+# .vcode
+*.code-workspace
