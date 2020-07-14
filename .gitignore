@@ -12,6 +12,7 @@ synth_1/*
 *.hbs
 *.jou
 *.log
+*.str
 
 # Documents
 docs/*.pdf
