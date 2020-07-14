@@ -10,6 +10,8 @@ synth_1/*
 *.sim
 *.hw
 *.hbs
+*.jou
+*.log
 
 # Documents
 docs/*.pdf
