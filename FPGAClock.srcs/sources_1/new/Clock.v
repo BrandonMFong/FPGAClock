@@ -11,11 +11,13 @@ module Clock
 /*** PARAMETERS ***/
 #(parameter
     // WL
-    CLOCKSPEED     = 1000000
+    CLOCKSPEED  = 1000000
 )
 /*** IN/OUT ***/
 (
     // IN
-    input clk
+    input   clk, 
+            reset,
+            Seconds // Signal for clock
 );
 endmodule

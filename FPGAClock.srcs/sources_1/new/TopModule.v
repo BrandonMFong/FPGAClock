@@ -35,10 +35,7 @@ module TopModule
     
     output reg          dp // I think this is the decimal points on the bottom of the seven segment display
 );
-    
-    /* REGISTER START */
-    wire [7:0] WL_Counter; // I do not think there will be a variable that will be larger than 256 bit
-    /* REGISTER END */
+    wire Seconds;
     
     /* FUNCTION START */
     // Function definition to calculate the ceiling of log base 2
@@ -61,7 +58,8 @@ module TopModule
     )
     mod0
     (
-        .clk(clk)
+        .clk(clk),
+        .Seconds(Seconds)
     );
     
     SevenSegment
@@ -80,6 +78,23 @@ module TopModule
     )
     mod2
     (
+        .clk(clk),
+        .Seconds(Seconds)
+    );
+    
+    ControlCenter
+    #(
+        .CLOCKSPEED(CLOCKSPEED)
+    )
+    mod3
+    (
+        .clk(clk),
+        .btnC(btnC),   // Function: 
+        .btnU(btnU),   // Function: 
+        .btnL(btnL),   // Function: 
+        .btnR(btnR),   // Function: 
+        .btnD(btnD),   // Function: 
+        .sw(sw)
     );
     /* MODULES END */
     
