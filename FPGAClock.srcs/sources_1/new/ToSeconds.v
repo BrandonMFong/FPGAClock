@@ -20,6 +20,9 @@ module ToSeconds
     input       clk,
     
     // OUT
+    // What am I outputting? The output here is a square wave
+    // So should the first half second be 0 and the latter 1?
+    // Decision: First half = 1, latter = 0
     output reg  Seconds
 );
     /*
@@ -30,11 +33,20 @@ module ToSeconds
     
     // Log2(1000000)=19.9315685693242
     // So I need at least 20 bits to represent 1000000
-    reg [WL_Counter - 1 : 0] i;
+    reg [WL_Counter - 1 : 0] i; // Holds the counter
+    
+    initial 
+    begin
+        Seconds = 1; // Starting with the positive edge on the seconds signal
+    end
     
     always @(posedge clk)
     begin
-        
+        if (i == CLOCKSPEED/2) // Counting across half the clock speed to get half the second
+        begin
+            Seconds <= ~Seconds; // negating to generate the signal
+        end
+        else i <= i + 1;
     end
 
 endmodule

@@ -37,7 +37,7 @@ module TopModule
 );
     
     /* REGISTER START */
-    reg [15:0] WL_Counter;
+    wire [7:0] WL_Counter; // I do not think there will be a variable that will be larger than 256 bit
     /* REGISTER END */
     
     /* FUNCTION START */
@@ -73,9 +73,17 @@ module TopModule
         .clk(clk)
     );
     
+    ToSeconds
+    #(
+        .CLOCKSPEED(CLOCKSPEED),
+        .WL_Counter(clogb2(CLOCKSPEED)) // This might throw an error because is it really returning a constant?
+    )
+    mod2
+    (
+    );
     /* MODULES END */
     
-    initial begin 
-        WL_Counter = clogb2(CLOCKSPEED);
-    end
+//    initial begin 
+//    end
+    
 endmodule
