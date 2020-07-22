@@ -35,6 +35,11 @@ module SevenSegment
     
     output reg          dp // I think this is the decimal points on the bottom of the seven segment display
 );
+    
+    reg [3 : 0] seg0, // Hour Left segment
+                seg1, // Hour Right segment
+                seg2, // Minute Left segment
+                seg3; // Minute Right segment
 
     
 endmodule

@@ -40,12 +40,6 @@ module ControlCenter
     output          MODE_Setup
 );
 
-    // When any of the inputs changes its state, it will enter this always block
-//    always @(*)
-//    begin
-//        if(btnC) 
-//    end
-
     assign MODE_Setup = sw[0] ? 1 : 0;
     assign reset = (sw[15] && btnC) ? 1 :0;
     assign increase = (MODE_Setup && btnU) ? 1 : 0;
