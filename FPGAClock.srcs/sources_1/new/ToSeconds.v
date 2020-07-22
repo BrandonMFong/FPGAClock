@@ -44,6 +44,7 @@ module ToSeconds
     begin
         if (i == CLOCKSPEED/2) // Counting across half the clock speed to get half the second
         begin
+            i       <= 0;
             Seconds <= ~Seconds; // negating to generate the signal
         end
         else i <= i + 1;
