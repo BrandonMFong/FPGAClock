@@ -6,6 +6,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+// TODO translate sec/min/hours to the SSD
 
 module TopModule
 /*** PARAMETERS ***/
@@ -35,7 +36,17 @@ module TopModule
     
     output reg          dp // I think this is the decimal points on the bottom of the seven segment display
 );
-    wire Seconds;
+
+    // WIRES
+    // <NAME>_<Source>_<Destination>
+    wire            Seconds_ToSeconds_Clock,
+                    reset_ControlCenter_Clock;
+    wire [7 : 0]    Left_seconds_Clock_SevenSegment,
+                    Right_seconds_Clock_SevenSegment,
+                    Left_minutes_Clock_SevenSegment,
+                    Right_minutes_Clock_SevenSegment,
+                    Left_hours_Clock_SevenSegment,
+                    Right_hours_Clock_SevenSegment;
     
     /* FUNCTION START */
     // Function definition to calculate the ceiling of log base 2
@@ -52,25 +63,48 @@ module TopModule
     
     /* MODULES START */
     
+    // Clock
     Clock
     #(
         .CLOCKSPEED(CLOCKSPEED)
     )
     mod0
     (
+        // IN
         .clk(clk),
-        .Seconds(Seconds)
+        .reset(reset_ControlCenter_Clock),
+        .Seconds(Seconds_ToSeconds_Clock),
+        .MODE_Setup(),
+        
+        // OUT 
+        .Left_seconds(Left_seconds_Clock_SevenSegment),
+        .Right_seconds(Right_seconds_Clock_SevenSegment),
+        .Left_minutes(Left_minutes_Clock_SevenSegment),
+        .Right_minutes(Right_minutes_Clock_SevenSegment),
+        .Left_hours(Left_hours_Clock_SevenSegment),
+        .Right_hours(Right_hours_Clock_SevenSegment)
     );
     
+    // SevenSegment
     SevenSegment
     #(
         .CLOCKSPEED(CLOCKSPEED)
     )
     mod1
     (
-        .clk(clk)
+        // IN
+        .clk(clk),
+        .Left_seconds(Left_seconds_Clock_SevenSegment),
+        .Right_seconds(Right_seconds_Clock_SevenSegment),
+        .Left_minutes(Left_minutes_Clock_SevenSegment),
+        .Right_minutes(Right_minutes_Clock_SevenSegment),
+        .Left_hours(Left_hours_Clock_SevenSegment),
+        .Right_hours(Right_hours_Clock_SevenSegment)
+        
+        // OUT
     );
     
+    // ToSeconds
     ToSeconds
     #(
         .CLOCKSPEED(CLOCKSPEED),
@@ -79,9 +113,10 @@ module TopModule
     mod2
     (
         .clk(clk),
-        .Seconds(Seconds)
+        .Seconds(Seconds_ToSeconds_Clock)
     );
     
+    // ControlCenter
     ControlCenter
     #(
         .CLOCKSPEED(CLOCKSPEED)
@@ -94,7 +129,13 @@ module TopModule
         .btnL(btnL),   // Function: 
         .btnR(btnR),   // Function: 
         .btnD(btnD),   // Function: 
-        .sw(sw)
+        .sw(sw),
+        
+        // OUT 
+        .reset(reset_ControlCenter_Clock),
+        .increase(),
+        .decrease(),
+        .MODE_Setup()
     );
     /* MODULES END */
     

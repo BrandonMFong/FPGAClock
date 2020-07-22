@@ -16,24 +16,13 @@ module SevenSegment
 /*** IN/OUT ***/
 (
     // IN
-    input               clk,    // For the internal clock
-                        btnC,   // Function: 
-                        btnU,   // Function: 
-                        btnL,   // Function: 
-                        btnR,   // Function: 
-                        btnD,   // Function: 
-    // Switches
-    // TODO figure out functions
-    input [15:0]        sw,
-    
+    input [7 : 0]   Left_seconds,
+                    Right_seconds,
+                    Left_minutes,
+                    Right_minutes,
+                    Left_hours,
+                    Right_hours
     // OUT
-    // Seven Segment LED 
-    output reg [6:0]    seg,
-    
-    // Seven Segment
-    output reg [3:0]    an,
-    
-    output reg          dp // I think this is the decimal points on the bottom of the seven segment display
 );
     
     reg [3 : 0] seg0, // Hour Left segment
@@ -41,5 +30,6 @@ module SevenSegment
                 seg2, // Minute Left segment
                 seg3; // Minute Right segment
 
+    // TODO translate sec/min/hours to the SSD
     
 endmodule

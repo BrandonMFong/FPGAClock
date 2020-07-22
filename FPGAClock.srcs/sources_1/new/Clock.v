@@ -17,16 +17,21 @@ module Clock
 /*** IN/OUT ***/
 (
     // IN
-    input               clk, 
-                        reset,
-                        Seconds, // Signal for clock
-                        MODE_Setup,
+    input           clk, 
+                    reset,
+                    Seconds, // Signal for clock
+                    MODE_Setup,
             
     // OUT
     // This time I want to output only one register
     // There are 4 segments, each 4 bits long
     // So the register should be 16 bits long
-    output reg [15 : 0] Segments
+    output [7 : 0]  Left_seconds,
+                    Right_seconds,
+                    Left_minutes,
+                    Right_minutes,
+                    Left_hours,
+                    Right_hours
 );
     
     reg         IsPM;
@@ -113,4 +118,13 @@ module Clock
             else secR <= secR + 1;
         end
     end
+    
+    // Output the registers
+    assign Left_seconds     = secL;
+    assign Right_seconds    = secR;
+    assign Left_minutes     = minL;
+    assign Right_minutes    = minR;
+    assign Left_hours       = hourL;
+    assign Right_hours      = hourR;
+    
 endmodule
