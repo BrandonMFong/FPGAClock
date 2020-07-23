@@ -26,12 +26,12 @@ module Clock
     // This time I want to output only one register
     // There are 4 segments, each 4 bits long
     // So the register should be 16 bits long
-    output [7 : 0]  Left_seconds,
-                    Right_seconds,
-                    Left_minutes,
-                    Right_minutes,
-                    Left_hours,
-                    Right_hours
+    output [7 : 0]  LeftSeconds,
+                    RightSeconds,
+                    LeftMinutes,
+                    RightMinutes,
+                    LeftHours,
+                    RightHours
 );
     
     reg         IsPM;
@@ -120,11 +120,11 @@ module Clock
     end
     
     // Output the registers
-    assign Left_seconds     = secL;
-    assign Right_seconds    = secR;
-    assign Left_minutes     = minL;
-    assign Right_minutes    = minR;
-    assign Left_hours       = hourL;
-    assign Right_hours      = hourR;
+    assign LeftSeconds     = secL;
+    assign RightSeconds    = secR;
+    assign LeftMinutes     = minL;
+    assign RightMinutes    = minR;
+    assign LeftHours       = hourL;
+    assign RightHours      = hourR;
     
 endmodule
