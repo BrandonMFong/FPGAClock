@@ -6,13 +6,14 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-// TODO translate sec/min/hours to the SSD
+// TODO run through code, see for bugs, check for all wire connections, and synthesize
 
 module TopModule
 /*** PARAMETERS ***/
 #(parameter
     // WL
-    CLOCKSPEED     = 1000000
+    CLOCKSPEED      = 1000000,
+    DefaultSSDValue = 0 // Connects to the Seven Segment module
 )
 /*** IN/OUT ***/
 (
@@ -42,6 +43,13 @@ module TopModule
     wire            Seconds_ClockMux_Clock,
                     reset_ControlCenter_Clock,
                     QuarterSeconds_ClockMux_SSDTranslation;
+    wire [6 : 0]    LeftSeconds_SSDTranslation_SevenSegment,
+                    RightSeconds_SSDTranslation_SevenSegment,
+                    LeftMinutes_SSDTranslation_SevenSegment,
+                    RightMinutes_SSDTranslation_SevenSegment,
+                    LeftHours_SSDTranslation_SevenSegment,
+                    RightHours_SSDTranslation_SevenSegment,
+                    DefaultSSDValue_SSDTranslation_SevenSegment;
     wire [7 : 0]    LeftSeconds_Clock_SSDTranslation,
                     RightSeconds_Clock_SSDTranslation,
                     LeftMinutes_Clock_SSDTranslation,
@@ -96,12 +104,13 @@ module TopModule
         // IN
         .QuarterSeconds(QuarterSeconds_ClockMux_SevenSegment),
         .clk(clk),
-//        .Left_seconds(Left_seconds_Clock_SevenSegment),
-//        .Right_seconds(Right_seconds_Clock_SevenSegment),
-//        .Left_minutes(Left_minutes_Clock_SevenSegment),
-//        .Right_minutes(Right_minutes_Clock_SevenSegment),
-//        .Left_hours(Left_hours_Clock_SevenSegment),
-//        .Right_hours(Right_hours_Clock_SevenSegment),
+        .LeftSeconds(LeftSeconds_SSDTranslation_SevenSegment),
+        .RightSeconds(RightSeconds_SSDTranslation_SevenSegment),
+        .LeftMinutes(LeftMinutes_SSDTranslation_SevenSegment),
+        .RightMinutes(RightMinutes_SSDTranslation_SevenSegment),
+        .LeftHours(LeftHours_SSDTranslation_SevenSegment),
+        .RightHours(RightHours_SSDTranslation_SevenSegment),
+        .DefaultValue(DefaultSSDValue_SSDTranslation_SevenSegment),
         
         // OUT
         .an(an) 
@@ -116,7 +125,10 @@ module TopModule
     )
     mod2_ToSeconds
     (
+        // IN
         .clk(clk),
+
+        // OUT 
         .Out(Seconds_ClockMux_Clock)
     );
     
@@ -129,7 +141,10 @@ module TopModule
     )
     mod2_ToQuarterSeconds
     (
+        // IN
         .clk(clk),
+
+        // OUT 
         .Out(QuarterSeconds_ClockMux_SevenSegment)
     );
     
@@ -140,6 +155,7 @@ module TopModule
     )
     mod3
     (
+        // IN
         .clk(clk),
         .btnC(btnC),   // Function: 
         .btnU(btnU),   // Function: 
@@ -163,7 +179,7 @@ module TopModule
         .Value(RightSeconds_Clock_SSDTranslation),
         
         // OUT 
-        .Result(reset_ControlCenter_Clock)
+        .Result(RightSeconds_SSDTranslation_SevenSegment)
     );
     
     // LeftSeconds
@@ -174,7 +190,7 @@ module TopModule
         .Value(LeftSeconds_Clock_SSDTranslation),
         
         // OUT 
-        .Result(reset_ControlCenter_Clock)
+        .Result(LeftSeconds_SSDTranslation_SevenSegment)
     );
     
     // RightMinutes
@@ -185,7 +201,7 @@ module TopModule
         .Value(RightMinutes_Clock_SSDTranslation),
         
         // OUT 
-        .Result(reset_ControlCenter_Clock)
+        .Result(RightMinutes_SSDTranslation_SevenSegment)
     );
     
     // LeftMinutes
@@ -196,7 +212,7 @@ module TopModule
         .Value(LeftMinutes_Clock_SSDTranslation),
         
         // OUT 
-        .Result(reset_ControlCenter_Clock)
+        .Result(LeftMinutes_SSDTranslation_SevenSegment)
     );
     
     // RightHours
@@ -207,7 +223,7 @@ module TopModule
         .Value(RightHours_Clock_SSDTranslation),
         
         // OUT 
-        .Result(reset_ControlCenter_Clock)
+        .Result(RightHours_SSDTranslation_SevenSegment)
     );
     
     // LeftHours
@@ -218,7 +234,18 @@ module TopModule
         .Value(LeftHours_Clock_SSDTranslation),
         
         // OUT 
-        .Result(reset_ControlCenter_Clock)
+        .Result(LeftHours_SSDTranslation_SevenSegment)
+    );
+    
+    // DefaultSSDValue
+    SSDTranslation
+    mod4_DefaultSSDValue
+    (
+        // IN
+        .Value(DefaultSSDValue),
+        
+        // OUT 
+        .Result(DefaultSSDValue_SSDTranslation_SevenSegment)
     );
     /* MODULES END */
     

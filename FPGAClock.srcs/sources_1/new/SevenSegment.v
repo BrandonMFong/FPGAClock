@@ -18,26 +18,25 @@ module SevenSegment
     // IN
     input               QuarterSeconds,
                         clk,
-    input [7 : 0]       Left_seconds,
-                        Right_seconds,
-                        Left_minutes,
-                        Right_minutes,
-                        Left_hours,
-                        Right_hours,
+    input [6 : 0]       LeftSeconds,
+                        RightSeconds,
+                        LeftMinutes,
+                        RightMinutes,
+                        LeftHours,
+                        RightHours,
+                        DefaultValue,
     // OUT
-    output reg [3:0]    an,// Segment display
-    output reg [6:0]    seg// Seven Segment value register
+    output reg [3 : 0]    an, // Segment display
+    output reg [6 : 0]    seg // Seven Segment value register
 );
     // STATES
     localparam STATE_seg0 = 4'b1000, STATE_seg1 = 4'b0100, STATE_seg2 = 4'b0010, STATE_seg3 = 4'b0001;
     
-    reg [1 : 0] SegDisplayState;
     reg [3 : 0] var;
     
     initial 
     begin
-        SegDisplayState = 0; // First state is 0
-//        an = 4'b1110; // go right to left
+        an              = 4'b1110; // go right to left
         var             = 4'b0001;
     end              
     // TODO translate sec/min/hours to the SSD
@@ -54,24 +53,17 @@ module SevenSegment
     // Assign the value to the seg reg
     always @(var)
     begin
+        // Make a case where it checks to see if the seconds are being displayed too
         case(var)
-            STATE_seg0: // Right Minute
-            begin
-                
-            end 
-            STATE_seg1: // Left Minute
-            begin
-                
-            end 
-            STATE_seg2: // Right Hour
-            begin
-                
-            end 
-            STATE_seg3: // Left Hour
-            begin
-                
-            end 
-            // TODO what default be?
+             // Right Minute
+            STATE_seg0: seg <= RightMinutes;
+            // Left Minute
+            STATE_seg1: seg <= LeftMinutes;
+            // Right Hour
+            STATE_seg2: seg <= RightHours;
+            // Left Hour
+            STATE_seg3: seg <= LeftHours;
+            default seg <= DefaultValue;
         endcase 
     end 
     
