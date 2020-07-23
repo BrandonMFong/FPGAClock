@@ -39,8 +39,9 @@ module TopModule
 
     // WIRES
     // <NAME>_<Source>_<Destination>
-    wire            Seconds_ToSeconds_Clock,
-                    reset_ControlCenter_Clock;
+    wire            Seconds_ClockMux_Clock,
+                    reset_ControlCenter_Clock,
+                    QuarterSeconds_ClockMux_SevenSegment;
     wire [7 : 0]    Left_seconds_Clock_SevenSegment,
                     Right_seconds_Clock_SevenSegment,
                     Left_minutes_Clock_SevenSegment,
@@ -73,7 +74,7 @@ module TopModule
         // IN
         .clk(clk),
         .reset(reset_ControlCenter_Clock),
-        .Seconds(Seconds_ToSeconds_Clock),
+        .Seconds(Seconds_ClockMux_Clock),
         .MODE_Setup(),
         
         // OUT 
@@ -93,6 +94,7 @@ module TopModule
     mod1
     (
         // IN
+        .QuarterSeconds(QuarterSeconds_ClockMux_SevenSegment),
         .clk(clk),
         .Left_seconds(Left_seconds_Clock_SevenSegment),
         .Right_seconds(Right_seconds_Clock_SevenSegment),
@@ -105,15 +107,29 @@ module TopModule
     );
     
     // ToSeconds
-    ToSeconds
+    ClockMux
     #(
         .CLOCKSPEED(CLOCKSPEED),
-        .WL_Counter(clogb2(CLOCKSPEED)) // This might throw an error because is it really returning a constant?
+        .WL_Counter(clogb2(CLOCKSPEED)), // This might throw an error because is it really returning a constant?
+        .Partition(2) // One period is one second
     )
-    mod2
+    ToSeconds
     (
         .clk(clk),
-        .Seconds(Seconds_ToSeconds_Clock)
+        .Out(Seconds_ClockMux_Clock)
+    );
+    
+    // ToQuarterSeconds
+    ClockMux
+    #(
+        .CLOCKSPEED(CLOCKSPEED),
+        .WL_Counter(clogb2(CLOCKSPEED)), // This might throw an error because is it really returning a constant?
+        .Partition(8) // One period is .25 of a second
+    )
+    ToQuarterSeconds
+    (
+        .clk(clk),
+        .Out(QuarterSeconds_ClockMux_SevenSegment)
     );
     
     // ControlCenter

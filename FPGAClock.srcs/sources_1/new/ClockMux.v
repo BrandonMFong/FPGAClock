@@ -7,12 +7,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module ToSeconds
+module ClockMux
 /*** PARAMETERS ***/
 #(parameter
     // WL
     CLOCKSPEED  = 1000000,
-    WL_Counter  = 20
+    WL_Counter  = 20,
+    Parition    = 2
 )
 /*** IN/OUT ***/
 (
@@ -23,7 +24,7 @@ module ToSeconds
     // What am I outputting? The output here is a square wave
     // So should the first half second be 0 and the latter 1?
     // Decision: First half = 1, latter = 0
-    output reg  Seconds
+    output reg  Out
 );
     /*
         Frequency is Cycles per seconds
@@ -37,15 +38,18 @@ module ToSeconds
     
     initial 
     begin
-        Seconds = 1; // Starting with the positive edge on the seconds signal
+        Out = 1; // Starting with the positive edge on the seconds signal
+        i   = 0;
     end
     
     always @(posedge clk)
     begin
-        if (i == CLOCKSPEED/2) // Counting across half the clock speed to get half the second
+        // Counting across half the clock speed to get half the second
+        // A whole period is a second
+        if (i == CLOCKSPEED/Parition) 
         begin
-            i       <= 0;
-            Seconds <= ~Seconds; // negating to generate the signal
+            i   <= 0;
+            Out <= ~Out; // negating to generate the signal
         end
         else i <= i + 1;
     end
