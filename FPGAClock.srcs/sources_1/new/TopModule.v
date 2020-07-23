@@ -101,9 +101,10 @@ module TopModule
         .Left_minutes(Left_minutes_Clock_SevenSegment),
         .Right_minutes(Right_minutes_Clock_SevenSegment),
         .Left_hours(Left_hours_Clock_SevenSegment),
-        .Right_hours(Right_hours_Clock_SevenSegment)
+        .Right_hours(Right_hours_Clock_SevenSegment),
         
         // OUT
+        .an(an) 
     );
     
     // ToSeconds
