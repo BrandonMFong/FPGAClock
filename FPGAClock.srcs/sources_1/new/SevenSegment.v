@@ -16,45 +16,49 @@ module SevenSegment
 /*** IN/OUT ***/
 (
     // IN
-    input               QuarterSeconds,
-                        clk,
-    input [6 : 0]       LeftSeconds,
-                        RightSeconds,
-                        LeftMinutes,
-                        RightMinutes,
-                        LeftHours,
-                        RightHours,
-                        DefaultValue,
+    input                   clk,
+    input [3 : 0]           SegmentDisplay,
+    input [6 : 0]           LeftSeconds,
+                            RightSeconds,
+                            LeftMinutes,
+                            RightMinutes,
+                            LeftHours,
+                            RightHours,
+                            DefaultValue,
     // OUT
-    output reg [3 : 0]    SegmentDisplay, // Segment display
-    output reg [6 : 0]    SegmentValue // Seven Segment value register
+    output reg [6 : 0]      SegmentValue // Seven Segment value register
 );
     // STATES
     localparam STATE_seg0 = 4'b1000, STATE_seg1 = 4'b0100, STATE_seg2 = 4'b0010, STATE_seg3 = 4'b0001;
     
-    reg [3 : 0] var;
+    // reg [3 : 0] var;
     
-    initial 
-    begin
-        SegmentDisplay  = 4'b1110; // go right to left
-        var             = 4'b0001;
-    end              
+    // initial 
+    // begin
+    //     SegmentDisplay  = 4'b1110; // go right to left
+    //     var             = 4'b0001;
+    // end              
     // TODO translate sec/min/hours to the SSD
     
     // Turns on segment display
-    always @(posedge QuarterSeconds)
-    begin
-        // Instead of states, can I shift?
-        if(var[3]) var  <= var ^ 4'b1001; // Left shift will 0 out the reg, xor by 9 to get 4'b0001
-        else var        <= var << 1;
-        SegmentDisplay  <= ~var;
-    end 
+    // always @(posedge QuarterSeconds)
+    // begin
+    //     // Instead of states, can I shift?
+    //     if(var[3]) var  <= var ^ 4'b1001; // Left shift will 0 out the reg, xor by 9 to get 4'b0001
+    //     else var        <= var << 1;
+    //     SegmentDisplay  <= ~var;
+    // end 
     
     // Assign the value to the seg reg
-    always @(var)
+    always @(SegmentDisplay)
     begin
         // Make a case where it checks to see if the seconds are being displayed too
-        case(var)
+        // It does not seem these assignments are working
+        // Though they look okay, the output is not ideal 
+        // I think it is an issue with the nonblocking
+        // in the case, var is 0001, but the nonblocking assignment is saying it is 1000
+        // The nonblocking assignment is turning seg0 on while the case below thinks it is turning seg3 on
+        case(SegmentDisplay)
              // Right Minute
             STATE_seg0: SegmentValue    <= LeftHours;
             // Left Minute
