@@ -12,7 +12,7 @@ module TopModule
 /*** PARAMETERS ***/
 #(parameter
     // WL
-    CLOCKSPEED      = 1000000,
+    CLOCKSPEED      = 100000000,
     DefaultSSDValue = 0 // Connects to the Seven Segment module
 )
 /*** IN/OUT ***/
@@ -137,7 +137,7 @@ module TopModule
     #(
         .CLOCKSPEED(CLOCKSPEED),
         .WL_Counter(clogb2(CLOCKSPEED)), // This might throw an error because is it really returning a constant?
-        .Partition(8) // One period is .25 of a second
+        .Partition(1000000) // One period is .25 of a second
     )
     mod2_ToQuarterSeconds
     (
