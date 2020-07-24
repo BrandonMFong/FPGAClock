@@ -29,10 +29,10 @@ module TopModule
     
     // OUT
     // Seven Segment value register
-    output reg [6:0]    seg,
+    output [6:0]        seg,
     
     // Seven Segment
-    output reg [3:0]    an,
+    output [3:0]        an,
     
     output reg          dp // I think this is the decimal points on the bottom of the seven segment display
 );
@@ -112,8 +112,8 @@ module TopModule
         .DefaultValue(DefaultSSDValue_SSDTranslation_SevenSegment),
         
         // OUT
-        .an(an),
-        .seg(seg)
+        .SegmentDisplay(an),
+        .SegmentValue(seg)
     );
     
     // ToSeconds

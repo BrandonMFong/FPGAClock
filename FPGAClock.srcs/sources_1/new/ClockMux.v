@@ -13,7 +13,7 @@ module ClockMux
     // WL
     CLOCKSPEED  = 1000000,
     WL_Counter  = 20,
-    Parition    = 2 // Defines how you will split a second
+    Partition   = 2 // Defines how you will split a second
 )
 /*** IN/OUT ***/
 (
@@ -46,7 +46,7 @@ module ClockMux
     begin
         // Counting across half the clock speed to get half the second
         // A whole period is a second
-        if (i == CLOCKSPEED/Parition) 
+        if (i == CLOCKSPEED/Partition) 
         begin
             i   <= 0;
             Out <= ~Out; // negating to generate the signal
