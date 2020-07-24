@@ -13,7 +13,7 @@ module ClockMux
     // WL
     CLOCKSPEED  = 1000000,
     WL_Counter  = 20,
-    Parition    = 2
+    Parition    = 2 // Defines how you will split a second
 )
 /*** IN/OUT ***/
 (

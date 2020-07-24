@@ -25,7 +25,6 @@ module TopModule
                         btnR,   // Function: 
                         btnD,   // Function: 
     // Switches
-    // TODO figure out functions
     input [15:0]        sw,
     
     // OUT
@@ -113,7 +112,8 @@ module TopModule
         .DefaultValue(DefaultSSDValue_SSDTranslation_SevenSegment),
         
         // OUT
-        .an(an) 
+        .an(an),
+        .seg(seg)
     );
     
     // ToSeconds
