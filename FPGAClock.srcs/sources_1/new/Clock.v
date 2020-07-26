@@ -35,8 +35,10 @@ module Clock
 );
     
     reg         IsPM;
-    reg [3 : 0] second_segment_threshold,
-                minute_segment_threshold,
+    reg [3 : 0] secondR_segment_threshold,
+                secondL_segment_threshold,
+                minuteR_segment_threshold,
+                minuteL_segment_threshold,
                 hourR_segment_threshold,
                 hourL_segment_threshold;
     reg [7 : 0] secL,
@@ -49,8 +51,10 @@ module Clock
     // Initialize variables for the time
     initial begin
         IsPM                        = 0;
-        second_segment_threshold    = 9;
-        minute_segment_threshold    = 9;
+        secondR_segment_threshold   = 9;
+        secondL_segment_threshold   = 5;
+        minuteR_segment_threshold   = 9;
+        minuteL_segment_threshold   = 5;
         secL                        = 0;
         secR                        = 0;
         minL                        = 0;
@@ -82,17 +86,17 @@ module Clock
         if(!MODE_Setup)
         begin 
             // Seconds
-            if(secR == (second_segment_threshold))
+            if(secR == (secondR_segment_threshold))
             begin 
                 secR <= 0;
-                if(secL == (second_segment_threshold))
+                if(secL == (secondL_segment_threshold))
                 begin
                     secL <= 0;
                     // Minutes
-                    if(minR == (minute_segment_threshold))
+                    if(minR == (minuteR_segment_threshold))
                     begin
                         minR <= 0;
-                        if(minL == (minute_segment_threshold))
+                        if(minL == (minuteL_segment_threshold))
                         begin
                             minL <= 0;
                             // Hours
