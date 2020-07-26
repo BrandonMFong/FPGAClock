@@ -34,12 +34,12 @@ module TopModule
     // Seven Segment
     output [3:0]        an,
     
-    output reg          dp // I think this is the decimal points on the bottom of the seven segment display
+    output              dp // I think this is the decimal points on the bottom of the seven segment display
 );
 
     // WIRES
     // <NAME>_<Source>_<Destination[0],Destination[1],Destination[2], ... Destination[n],Destination[n+1]>
-    wire            Seconds_ClockMux_Clock,
+    wire            Seconds_ClockMux_Clock_DecimalPointDisplay,
                     reset_ControlCenter_Clock,
                     QuarterSeconds_ClockMux_SegDisplay;
     wire [3 : 0]    SegmentDisplay_SegDisplay_SevenSegment;
@@ -82,7 +82,7 @@ module TopModule
             // IN
             .clk(clk),
             .reset(reset_ControlCenter_Clock),
-            .Seconds(Seconds_ClockMux_Clock),
+            .Seconds(Seconds_ClockMux_Clock_DecimalPointDisplay),
             .MODE_Setup(),
             
             // OUT 
@@ -113,7 +113,6 @@ module TopModule
             .DefaultValue(DefaultSSDValue_SSDTranslation_SevenSegment),
             
             // OUT
-            // .SegmentDisplay(an),
             .SegmentValue(seg)
         );
     
@@ -130,7 +129,7 @@ module TopModule
             .clk(clk),
 
             // OUT 
-            .Out(Seconds_ClockMux_Clock)
+            .Out(Seconds_ClockMux_Clock_DecimalPointDisplay)
         );
     
     // ToQuarterSeconds
@@ -262,6 +261,20 @@ module TopModule
             // OUT 
             .SegmentDisplay(SegmentDisplay_SegDisplay_SevenSegment),
             .OutAnalogDisplay(an)
+        );
+    
+    // DecimalPointDisplay
+    DecimalPointDisplay
+        #(
+            .CLOCKSPEED(CLOCKSPEED)
+        )
+        mod6
+        (
+            // IN
+            .Seconds(Seconds_ClockMux_Clock_DecimalPointDisplay),
+            
+            // OUT 
+            .DecimalPoint(dp)
         );
     /* MODULES END */
     

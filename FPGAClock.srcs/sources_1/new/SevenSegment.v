@@ -34,12 +34,7 @@ module SevenSegment
     // Assign the value to the seg reg
     always @(SegmentDisplay)
     begin
-        // Make a case where it checks to see if the seconds are being displayed too
-        // It does not seem these assignments are working
-        // Though they look okay, the output is not ideal 
-        // I think it is an issue with the nonblocking
-        // in the case, var is 0001, but the nonblocking assignment is saying it is 1000
-        // The nonblocking assignment is turning seg0 on while the case below thinks it is turning seg3 on
+        // seg[n] has a fade display of seg[n-1] 
         case(SegmentDisplay)
              // Right Minute
             STATE_seg0: SegmentValue    <= LeftHours;
