@@ -42,7 +42,8 @@ module TopModule
     wire            Seconds_ClockMux_Clock_DecimalPointDisplay,
                     reset_ControlCenter_Clock,
                     QuarterSeconds_ClockMux_SegDisplay,
-                    MODE_ShowSeconds_ControlCenter_SevenSegment;
+                    MODE_ShowSeconds_ControlCenter_SevenSegment,
+                    DebouncePulse_ClockMux_Clock;
     wire [3 : 0]    SegmentDisplay_SegDisplay_SevenSegment;
     wire [6 : 0]    LeftSeconds_SSDTranslation_SevenSegment,
                     RightSeconds_SSDTranslation_SevenSegment,
@@ -85,6 +86,7 @@ module TopModule
             .reset(reset_ControlCenter_Clock),
             .Seconds(Seconds_ClockMux_Clock_DecimalPointDisplay),
             .MODE_Setup(),
+            .DebouncePulse(DebouncePulse_ClockMux_Clock),
             
             // OUT 
             .LeftSeconds(LeftSeconds_Clock_SSDTranslation),
@@ -148,6 +150,22 @@ module TopModule
 
             // OUT 
             .Out(QuarterSeconds_ClockMux_SegDisplay)
+        );
+    
+    // ToDebouncePulse
+    ClockMux
+        #(
+            .CLOCKSPEED(CLOCKSPEED),
+            .WL_Counter(clogb2(CLOCKSPEED)), // This might throw an error because is it really returning a constant?
+            .Partition(50000) 
+        )
+        mod2_ToDebouncePulse
+        (
+            // IN
+            .clk(clk),
+
+            // OUT 
+            .Out(DebouncePulse_ClockMux_Clock)
         );
     
     // ControlCenter
@@ -279,6 +297,7 @@ module TopModule
             // OUT 
             .DecimalPoint(dp)
         );
+    
     /* MODULES END */
     
 //    initial begin 

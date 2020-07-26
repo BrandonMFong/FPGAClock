@@ -21,6 +21,7 @@ module Clock
                     reset,
                     Seconds, // Signal for clock
                     MODE_Setup,
+                    DebouncePulse,
             
     // OUT
     // This time I want to output only one register
@@ -33,102 +34,123 @@ module Clock
                     LeftHours,
                     RightHours
 );
-    
-    reg         IsPM;
-    reg [3 : 0] secondR_segment_threshold,
-                secondL_segment_threshold,
-                minuteR_segment_threshold,
-                minuteL_segment_threshold,
-                hourR_segment_threshold,
-                hourL_segment_threshold;
-    reg [7 : 0] secL,
-                secR,
-                minL,
-                minR,
-                hourL,
-                hourR;
+    wire    Counter;
+    // reg         IsPM;
+    // reg [3 : 0] secondR_segment_threshold,
+    //             secondL_segment_threshold,
+    //             minuteR_segment_threshold,
+    //             minuteL_segment_threshold,
+    //             hourR_segment_threshold,
+    //             hourL_segment_threshold;
+    // reg [7 : 0] secL,
+    //             secR,
+    //             minL,
+    //             minR,
+    //             hourL,
+    //             hourR;
                 
     // Initialize variables for the time
-    initial begin
-        IsPM                        = 0;
-        secondR_segment_threshold   = 9;
-        secondL_segment_threshold   = 5;
-        minuteR_segment_threshold   = 9;
-        minuteL_segment_threshold   = 5;
-        secL                        = 0;
-        secR                        = 0;
-        minL                        = 0;
-        minR                        = 0;
+    // initial begin
+    //     IsPM                        = 0;
+    //     secondR_segment_threshold   = 9;
+    //     secondL_segment_threshold   = 5;
+    //     minuteR_segment_threshold   = 9;
+    //     minuteL_segment_threshold   = 5;
+    //     secL                        = 0;
+    //     secR                        = 0;
+    //     minL                        = 0;
+    //     minR                        = 0;
         
-        // Start time for Military time is 00:00
-        // For non military is 12:00 AM
-        if(IsMilitaryTime)
-        begin
-            hourL                   = 0;
-            hourR                   = 0;
-            hourL_segment_threshold = 2;
-            hourR_segment_threshold = 4;
-        end
-        else 
-        begin
-            hourL                   = 1;
-            hourR                   = 2;
-            hourL_segment_threshold = 1;
-            hourR_segment_threshold = 2;
-        end
-    end 
+    //     // Start time for Military time is 00:00
+    //     // For non military is 12:00 AM
+    //     if(IsMilitaryTime)
+    //     begin
+    //         hourL                   = 0;
+    //         hourR                   = 0;
+    //         hourL_segment_threshold = 2;
+    //         hourR_segment_threshold = 4;
+    //     end
+    //     else 
+    //     begin
+    //         hourL                   = 1;
+    //         hourR                   = 2;
+    //         hourL_segment_threshold = 1;
+    //         hourR_segment_threshold = 2;
+    //     end
+    // end 
     
     // Where do I put the reset?  in a separate always block?
-    always @(posedge Seconds)
-    begin
-        // If we are in setup mode, then we are not incrememnting the seconds
-        // i.e. time is paused
-        if(!MODE_Setup)
-        begin 
-            // Seconds
-            if(secR == (secondR_segment_threshold))
-            begin 
-                secR <= 0;
-                if(secL == (secondL_segment_threshold))
-                begin
-                    secL <= 0;
-                    // Minutes
-                    if(minR == (minuteR_segment_threshold))
-                    begin
-                        minR <= 0;
-                        if(minL == (minuteL_segment_threshold))
-                        begin
-                            minL <= 0;
-                            // Hours
-                            if(hourR == (hourR_segment_threshold))
-                            begin
-                                if(IsMilitaryTime) hourR    <= 0;
-                                else hourR                  <= 2;
-                                if(hourL == (hourL_segment_threshold))
-                                begin
-                                    if(IsMilitaryTime) hourL    <= 0;
-                                    else hourL                  <= 0;
-                                end 
-                                else hourL <= hourL + 1;
-                            end 
-                            else hourR <= hourR + 1;
-                        end 
-                        else minL <= minL + 1;
-                    end 
-                    else minR <= minR + 1;
-                end 
-                else secL <= secL + 1;
-            end
-            else secR <= secR + 1;
-        end
-    end
+    // always @(posedge Seconds)
+    // begin
+    //     // If we are in setup mode, then we are not incrememnting the seconds
+    //     // i.e. time is paused
+    //     if(!MODE_Setup)
+    //     begin 
+            // // Seconds
+            // if(secR == (secondR_segment_threshold))
+            // begin 
+            //     secR <= 0;
+            //     if(secL == (secondL_segment_threshold))
+            //     begin
+            //         secL <= 0;
+            //         // Minutes
+            //         if(minR == (minuteR_segment_threshold))
+            //         begin
+            //             minR <= 0;
+            //             if(minL == (minuteL_segment_threshold))
+            //             begin
+            //                 minL <= 0;
+            //                 // Hours
+            //                 if(hourR == (hourR_segment_threshold))
+            //                 begin
+            //                     if(IsMilitaryTime) hourR    <= 0;
+            //                     else hourR                  <= 2;
+            //                     if(hourL == (hourL_segment_threshold))
+            //                     begin
+            //                         if(IsMilitaryTime) hourL    <= 0;
+            //                         else hourL                  <= 0;
+            //                     end 
+            //                     else hourL <= hourL + 1;
+            //                 end 
+            //                 else hourR <= hourR + 1;
+            //             end 
+            //             else minL <= minL + 1;
+            //         end 
+            //         else minR <= minR + 1;
+            //     end 
+            //     else secL <= secL + 1;
+            // end
+            // else secR <= secR + 1;
+    //     end
+    // end
+
+    assign Counter = MODE_Setup ? DebouncePulse : Seconds;
+
+    ClockLogic #(.CLOCKSPEED(CLOCKSPEED),.IsMilitaryTime(IsMilitaryTime))
+    mod0_Seconds
+    (
+        .reset(reset),.Counter(Counter),
+        .LeftSeconds(LeftSeconds),.RightSeconds(RightSeconds),
+        .LeftMinutes(LeftMinutes),.RightMinutes(RightMinutes),
+        .LeftHours(LeftHours),.RightHours(RightHours)
+    );
+
+    // always @(posedge DebouncePulse)
+    // begin
+    //     if(MODE_Setup)
+    //     begin
+            
+    //     end
+    // end
     
     // Output the registers
-    assign LeftSeconds     = secL;
-    assign RightSeconds    = secR;
-    assign LeftMinutes     = minL;
-    assign RightMinutes    = minR;
-    assign LeftHours       = hourL;
-    assign RightHours      = hourR;
+    // Put a mux here
+    // I need to assign from registers
+//    assign LeftSeconds     = secL;
+//    assign RightSeconds    = secR;
+//    assign LeftMinutes     = minL;
+//    assign RightMinutes    = minR;
+//    assign LeftHours       = hourL;
+//    assign RightHours      = hourR;
     
 endmodule
