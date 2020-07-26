@@ -17,6 +17,7 @@ module DecimalPointDisplay
 (
     // IN
     input   Seconds,
+            IsInSetup,
     
     // OUT
     // What am I outputting? The output here is a square wave
@@ -25,5 +26,5 @@ module DecimalPointDisplay
     output  DecimalPoint
 );
 
-    assign DecimalPoint = Seconds;
+    assign DecimalPoint = IsInSetup ? 0 : Seconds;
 endmodule

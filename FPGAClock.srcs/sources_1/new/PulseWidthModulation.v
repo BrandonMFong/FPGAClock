@@ -33,14 +33,14 @@ module PulseWidthModulation
 //        In                  = 0;
         i                   = 0;
         ThresholdCounter    = 0;
-        Dividend            = 100000;
+        Dividend            = 1000;
     end
     
     always @(posedge clk)
     begin
         if(In)
         begin
-            if(ThresholdCounter == SpeedUpThreshold) Dividend <= Dividend * 10; // Log up
+            if(ThresholdCounter == SpeedUpThreshold) Dividend <= Dividend / 10; // Log up
             else ThresholdCounter <= ThresholdCounter + 1;
             if(i == CLOCKSPEED/Dividend)
             begin

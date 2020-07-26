@@ -306,7 +306,8 @@ module TopModule
     // DecimalPointDisplay
     PulseWidthModulation
         #(
-            .CLOCKSPEED(CLOCKSPEED)
+            .CLOCKSPEED(CLOCKSPEED),
+            .SpeedUpThreshold(5)
         )
         mod7
         (

@@ -85,44 +85,44 @@ module ClockLogic
     begin
         // // If we are in setup mode, then we are not incrememnting the seconds
         // // i.e. time is paused
-        // if(!MODE_Setup)
-        // begin 
-            // Seconds
-            if(secR == (secondR_segment_threshold))
-            begin 
-                secR <= 0;
-                if(secL == (secondL_segment_threshold))
+        // Seconds
+        if(secR == (secondR_segment_threshold))
+        begin 
+            secR <= 0;
+            if(secL == (secondL_segment_threshold))
+            begin
+                secL <= 0;
+                // Minutes
+                if(minR == (minuteR_segment_threshold))
                 begin
-                    secL <= 0;
-                    // Minutes
-                    if(minR == (minuteR_segment_threshold))
+                    minR <= 0;
+                    if(minL == (minuteL_segment_threshold))
                     begin
-                        minR <= 0;
-                        if(minL == (minuteL_segment_threshold))
+                        minL <= 0;
+                        // Hours
+                        // Have to edit the log here
+                        // It will reset if before it reaches 13
+                        // I think I need to use the IsPM for military time too
+                        if(hourR == (hourR_segment_threshold))
                         begin
-                            minL <= 0;
-                            // Hours
-                            if(hourR == (hourR_segment_threshold))
+                            if(IsMilitaryTime) hourR    <= 0;
+                            else hourR                  <= 2;
+                            if(hourL == (hourL_segment_threshold))
                             begin
-                                if(IsMilitaryTime) hourR    <= 0;
-                                else hourR                  <= 2;
-                                if(hourL == (hourL_segment_threshold))
-                                begin
-                                    if(IsMilitaryTime) hourL    <= 0;
-                                    else hourL                  <= 0;
-                                end 
-                                else hourL <= hourL + 1;
+                                if(IsMilitaryTime) hourL    <= 0;
+                                else hourL                  <= 0;
                             end 
-                            else hourR <= hourR + 1;
+                            else hourL <= hourL + 1;
                         end 
-                        else minL <= minL + 1;
+                        else hourR <= hourR + 1;
                     end 
-                    else minR <= minR + 1;
+                    else minL <= minL + 1;
                 end 
-                else secL <= secL + 1;
-            end
-            else secR <= secR + 1;
-        // end
+                else minR <= minR + 1;
+            end 
+            else secL <= secL + 1;
+        end
+        else secR <= secR + 1;
     end
 
     // Output the registers
