@@ -11,14 +11,14 @@ module ControlCenter
 /*** PARAMETERS ***/
 #(parameter
     // WL
-    CLOCKSPEED  = 1000000
+    CLOCKSPEED  = 100000000
 )
 /*** IN/OUT ***/
 (
     // IN
     input           clk,    // Probably won't need this
                     btnC,   // Function: 
-                    btnU,   // Function: 
+                    btnU,   // Function: increase
                     btnL,   // Function: 
                     btnR,   // Function: 
                     btnD,   // Function: 
@@ -39,9 +39,10 @@ module ControlCenter
                     MODE_ShowSeconds
 );
 
-    assign MODE_Setup           = sw[0] ? 1 : 0;
+    // assign MODE_Setup           = sw[0] ? 1 : 0;
     assign reset                = (sw[15] && btnC) ? 1 :0;
     assign increase             = (MODE_Setup && btnU) ? 1 : 0;
     assign decrease             = (MODE_Setup && btnD) ? 1 : 0;
     assign MODE_ShowSeconds     = sw[0];
+    assign MODE_Setup           = sw[1];
 endmodule

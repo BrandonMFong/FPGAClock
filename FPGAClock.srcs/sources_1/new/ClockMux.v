@@ -11,7 +11,7 @@ module ClockMux
 /*** PARAMETERS ***/
 #(parameter
     // WL
-    CLOCKSPEED  = 1000000,
+    CLOCKSPEED  = 100000000,
     WL_Counter  = 20,
     Partition   = 2 // Defines how you will split a second
 )

@@ -11,7 +11,7 @@ module SegDisplay
 /*** PARAMETERS ***/
 #(parameter
     // WL
-    CLOCKSPEED     = 1000000
+    CLOCKSPEED     = 100000000
 )
 /*** IN/OUT ***/
 (

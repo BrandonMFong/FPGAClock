@@ -6,7 +6,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-// TODO run through code, see for bugs, check for all wire connections, and synthesize
+// TODO code pwm 
 
 module TopModule
 /*** PARAMETERS ***/
@@ -42,7 +42,10 @@ module TopModule
     wire            Seconds_ClockMux_Clock_DecimalPointDisplay,
                     reset_ControlCenter_Clock,
                     QuarterSeconds_ClockMux_SegDisplay,
-                    MODE_ShowSeconds_ControlCenter_SevenSegment;
+                    MODE_ShowSeconds_ControlCenter_SevenSegment,
+                    increase_ControlCenter_PulseWidthModulation,
+                    increase_PulseWidthModulation_Clock,
+                    MODE_Setup_ControlCenter_Clock;
                     // DebouncePulse_ClockMux_Clock;
     wire [3 : 0]    SegmentDisplay_SegDisplay_SevenSegment;
     wire [6 : 0]    LeftSeconds_SSDTranslation_SevenSegment,
@@ -85,7 +88,8 @@ module TopModule
             .clk(clk),
             .reset(reset_ControlCenter_Clock),
             .Seconds(Seconds_ClockMux_Clock_DecimalPointDisplay),
-            .MODE_Setup(),
+            .MODE_Setup(MODE_Setup_ControlCenter_Clock),
+            .increase(increase_PulseWidthModulation_Clock),
             // .DebouncePulse(DebouncePulse_ClockMux_Clock),
             
             // OUT 
@@ -186,9 +190,9 @@ module TopModule
             
             // OUT 
             .reset(reset_ControlCenter_Clock),
-            .increase(),
+            .increase(increase_ControlCenter_PulseWidthModulation),
             .decrease(),
-            .MODE_Setup(),
+            .MODE_Setup(MODE_Setup_ControlCenter_Clock),
             .MODE_ShowSeconds(MODE_ShowSeconds_ControlCenter_SevenSegment)
         );
     
@@ -296,6 +300,22 @@ module TopModule
             
             // OUT 
             .DecimalPoint(dp)
+        );
+    
+    
+    // DecimalPointDisplay
+    PulseWidthModulation
+        #(
+            .CLOCKSPEED(CLOCKSPEED)
+        )
+        mod7
+        (
+            // IN
+            .clk(clk),
+            .In(increase_ControlCenter_PulseWidthModulation),
+            
+            // OUT 
+            .Out(increase_PulseWidthModulation_Clock)
         );
     
     /* MODULES END */

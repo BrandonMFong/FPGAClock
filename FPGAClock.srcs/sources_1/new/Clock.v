@@ -11,7 +11,7 @@ module Clock
 /*** PARAMETERS ***/
 #(parameter
     // WL
-    CLOCKSPEED      = 1000000,
+    CLOCKSPEED      = 100000000,
     IsMilitaryTime  = 0
 )
 /*** IN/OUT ***/
@@ -21,6 +21,7 @@ module Clock
                     reset,
                     Seconds, // Signal for clock
                     MODE_Setup,
+                    increase,
                     // DebouncePulse,
             
     // OUT
@@ -51,7 +52,7 @@ module Clock
     
 
     // I can probably use a pulse modulator instead of a Debounce signal
-    assign Pulse = MODE_Setup ? DebouncePulse : Seconds;
+    assign Pulse = MODE_Setup ? increase : Seconds;
 
     ClockLogic #(.CLOCKSPEED(CLOCKSPEED),.IsMilitaryTime(IsMilitaryTime))
     mod0_Seconds

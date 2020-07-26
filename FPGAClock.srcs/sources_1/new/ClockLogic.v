@@ -11,7 +11,7 @@ module ClockLogic
 /*** PARAMETERS ***/
 #(parameter
     // WL
-    CLOCKSPEED      = 1000000,
+    CLOCKSPEED      = 100000000,
     IsMilitaryTime  = 0
 )
 /*** IN/OUT ***/
@@ -62,6 +62,7 @@ module ClockLogic
         
         // Start time for Military time is 00:00
         // For non military is 12:00 AM
+        // This is a problem because it does not go through 3 - 9 
         if(IsMilitaryTime)
         begin
             hourL                   = 0;
