@@ -16,9 +16,10 @@ module SegDisplay
 /*** IN/OUT ***/
 (
     // IN
-    input               QuarterSeconds,
+    input                   QuarterSeconds,
     // OUT
-    output reg [3 : 0]    SegmentDisplay // Segment display
+    output reg [3 : 0]      SegmentDisplay, // Segment display
+                            OutAnalogDisplay
 );
     // STATES
     
@@ -35,9 +36,10 @@ module SegDisplay
     always @(posedge QuarterSeconds)
     begin
         // Instead of states, can I shift?
-        if(var[3]) var  <= var ^ 4'b1001; // Left shift will 0 out the reg, xor by 9 to get 4'b0001
-        else var        <= var << 1;
-        SegmentDisplay  <= ~var;
+        if(var[3]) var      <= var ^ 4'b1001; // Left shift will 0 out the reg, xor by 9 to get 4'b0001
+        else var            <= var << 1;
+        SegmentDisplay      <= ~var;
+        OutAnalogDisplay    <= ~var;
     end 
     
 endmodule

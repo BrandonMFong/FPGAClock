@@ -29,25 +29,7 @@ module SevenSegment
     output reg [6 : 0]      SegmentValue // Seven Segment value register
 );
     // STATES
-    localparam STATE_seg0 = 4'b1000, STATE_seg1 = 4'b0100, STATE_seg2 = 4'b0010, STATE_seg3 = 4'b0001;
-    
-    // reg [3 : 0] var;
-    
-    // initial 
-    // begin
-    //     SegmentDisplay  = 4'b1110; // go right to left
-    //     var             = 4'b0001;
-    // end              
-    // TODO translate sec/min/hours to the SSD
-    
-    // Turns on segment display
-    // always @(posedge QuarterSeconds)
-    // begin
-    //     // Instead of states, can I shift?
-    //     if(var[3]) var  <= var ^ 4'b1001; // Left shift will 0 out the reg, xor by 9 to get 4'b0001
-    //     else var        <= var << 1;
-    //     SegmentDisplay  <= ~var;
-    // end 
+    localparam STATE_seg0 = 4'b0111, STATE_seg1 = 4'b1011, STATE_seg2 = 4'b1101, STATE_seg3 = 4'b1110;
     
     // Assign the value to the seg reg
     always @(SegmentDisplay)

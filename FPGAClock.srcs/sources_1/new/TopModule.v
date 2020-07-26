@@ -38,7 +38,7 @@ module TopModule
 );
 
     // WIRES
-    // <NAME>_<Source>_<Destination, ... Destination+1>
+    // <NAME>_<Source>_<Destination[0],Destination[1],Destination[2], ... Destination[n],Destination[n+1]>
     wire            Seconds_ClockMux_Clock,
                     reset_ControlCenter_Clock,
                     QuarterSeconds_ClockMux_SegDisplay;
@@ -102,7 +102,6 @@ module TopModule
         mod1
         (
             // IN
-            // .QuarterSeconds(QuarterSeconds_ClockMux_SegDisplay),
             .clk(clk),
             .SegmentDisplay(SegmentDisplay_SegDisplay_SevenSegment),
             .LeftSeconds(LeftSeconds_SSDTranslation_SevenSegment),
@@ -261,7 +260,8 @@ module TopModule
             .QuarterSeconds(QuarterSeconds_ClockMux_SegDisplay),
             
             // OUT 
-            .SegmentDisplay(SegmentDisplay_SegDisplay_SevenSegment)
+            .SegmentDisplay(SegmentDisplay_SegDisplay_SevenSegment),
+            .OutAnalogDisplay(an)
         );
     /* MODULES END */
     
