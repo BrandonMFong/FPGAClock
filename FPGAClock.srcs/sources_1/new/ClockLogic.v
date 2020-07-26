@@ -18,7 +18,7 @@ module ClockLogic
 (
     // IN
     input           reset,
-                    Counter, // Whatever is being passed, i.e. seconds, clock, debounce
+                    Pulse, // Whatever is being passed, i.e. seconds, clock, debounce
                     // MODE_Setup,
                     // DebouncePulse,
             
@@ -78,8 +78,9 @@ module ClockLogic
         end
     end 
     
-    // Where do I put the reset?  in a separate always block?
-    always @(posedge Counter)
+    // The pulse increments the time
+    // I think I can utilize this pulse with a pwm to increase the time asynchronous to the seconds pulse
+    always @(posedge Pulse)
     begin
         // // If we are in setup mode, then we are not incrememnting the seconds
         // // i.e. time is paused

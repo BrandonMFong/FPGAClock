@@ -21,7 +21,7 @@ module Clock
                     reset,
                     Seconds, // Signal for clock
                     MODE_Setup,
-                    DebouncePulse,
+                    // DebouncePulse,
             
     // OUT
     // This time I want to output only one register
@@ -34,14 +34,7 @@ module Clock
                     LeftHours,
                     RightHours
 );
-    wire            Counter;
-    // reg         IsPM;
-    // reg [3 : 0] secondR_segment_threshold,
-    //             secondL_segment_threshold,
-    //             minuteR_segment_threshold,
-    //             minuteL_segment_threshold,
-    //             hourR_segment_threshold,
-    //             hourL_segment_threshold;
+    wire            Pulse;
     wire [7 : 0]    wire_secL,
                     wire_secR,
                     wire_minL,
@@ -57,12 +50,13 @@ module Clock
                 
     
 
-    assign Counter = MODE_Setup ? DebouncePulse : Seconds;
+    // I can probably use a pulse modulator instead of a Debounce signal
+    assign Pulse = MODE_Setup ? DebouncePulse : Seconds;
 
     ClockLogic #(.CLOCKSPEED(CLOCKSPEED),.IsMilitaryTime(IsMilitaryTime))
     mod0_Seconds
     (
-        .reset(reset),.Counter(Counter),
+        .reset(reset),.Pulse(Pulse),
         .LeftSeconds(wire_secL),.RightSeconds(wire_secR),
         .LeftMinutes(wire_minL),.RightMinutes(wire_minR),
         .LeftHours(wire_hourL),.RightHours(wire_hourR)
