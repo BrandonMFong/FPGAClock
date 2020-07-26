@@ -11,8 +11,7 @@ module Clock
 /*** PARAMETERS ***/
 #(parameter
     // WL
-    CLOCKSPEED      = 100000000,
-    IsMilitaryTime  = 0
+    CLOCKSPEED      = 100000000
 )
 /*** IN/OUT ***/
 (
@@ -22,7 +21,7 @@ module Clock
                     Seconds, // Signal for clock
                     MODE_Setup,
                     increase,
-                    // DebouncePulse,
+                    IsMilitaryTime,
             
     // OUT
     // This time I want to output only one register
@@ -54,10 +53,10 @@ module Clock
     // I can probably use a pulse modulator instead of a Debounce signal
     assign Pulse = MODE_Setup ? increase : Seconds;
 
-    ClockLogic #(.CLOCKSPEED(CLOCKSPEED),.IsMilitaryTime(IsMilitaryTime))
+    ClockLogic #(.CLOCKSPEED(CLOCKSPEED))
     mod0_Seconds
     (
-        .reset(reset),.Pulse(Pulse),
+        .reset(reset),.Pulse(Pulse),.IsMilitaryTime(IsMilitaryTime),
         .LeftSeconds(wire_secL),.RightSeconds(wire_secR),
         .LeftMinutes(wire_minL),.RightMinutes(wire_minR),
         .LeftHours(wire_hourL),.RightHours(wire_hourR)

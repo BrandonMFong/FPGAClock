@@ -36,7 +36,8 @@ module ControlCenter
                     increase, // Increases time
                     decrease, // Decreases time
                     MODE_Setup, // To set the time
-                    MODE_ShowSeconds
+                    MODE_ShowSeconds,
+                    MODE_IsMilitaryTime
 );
 
     // assign MODE_Setup           = sw[0] ? 1 : 0;
@@ -45,4 +46,5 @@ module ControlCenter
     assign decrease             = (MODE_Setup && btnD) ? 1 : 0;
     assign MODE_ShowSeconds     = sw[0];
     assign MODE_Setup           = sw[1];
+    assign MODE_IsMilitaryTime  = sw[15];
 endmodule

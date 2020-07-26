@@ -11,8 +11,7 @@ module ClockLogic
 /*** PARAMETERS ***/
 #(parameter
     // WL
-    CLOCKSPEED      = 100000000,
-    IsMilitaryTime  = 0
+    CLOCKSPEED      = 100000000
 )
 /*** IN/OUT ***/
 (
@@ -21,6 +20,7 @@ module ClockLogic
                     Pulse, // Whatever is being passed, i.e. seconds, clock, debounce
                     // MODE_Setup,
                     // DebouncePulse,
+                    IsMilitaryTime,
             
     // OUT
     // This time I want to output only one register

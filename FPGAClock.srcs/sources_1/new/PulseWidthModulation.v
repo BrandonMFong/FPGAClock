@@ -52,7 +52,7 @@ module PulseWidthModulation
         else begin
             i                   <= 0;
             ThresholdCounter    <= 0;
-            Dividend            <= 100000;
+            Dividend            <= 1000;
             Out                 <= 0;
         end
     end
