@@ -17,6 +17,7 @@ module SevenSegment
 (
     // IN
     input                   clk,
+                            MODE_ShowSeconds,
     input [3 : 0]           SegmentDisplay,
     input [6 : 0]           LeftSeconds,
                             RightSeconds,
@@ -35,18 +36,38 @@ module SevenSegment
     always @(SegmentDisplay)
     begin
         // seg[n] has a fade display of seg[n-1] 
-        case(SegmentDisplay)
-             // Right Minute
-            STATE_seg0: SegmentValue    <= LeftHours;
-            // Left Minute
-            STATE_seg1: SegmentValue    <= RightHours;
-            // Right Hour
-            STATE_seg2: SegmentValue    <= LeftMinutes;
-            // Left Hour
-            STATE_seg3: SegmentValue    <= RightMinutes;
-            // Default value
-            default SegmentValue        <= DefaultValue;
-        endcase 
+
+        // Show seconds
+        if(MODE_ShowSeconds)
+        begin 
+            case(SegmentDisplay)
+                // DefaultValue
+                STATE_seg0: SegmentValue    <= DefaultValue;
+                // DefaultValue
+                STATE_seg1: SegmentValue    <= DefaultValue;
+                // Right Seconds
+                STATE_seg2: SegmentValue    <= LeftSeconds;
+                // Left Seconds
+                STATE_seg3: SegmentValue    <= RightSeconds;
+                // Default value
+                default SegmentValue        <= DefaultValue;
+            endcase 
+        end 
+        else
+        begin 
+            case(SegmentDisplay)
+                // Left Hour
+                STATE_seg0: SegmentValue    <= LeftHours;
+                // Right Hour
+                STATE_seg1: SegmentValue    <= RightHours;
+                // Left Minute
+                STATE_seg2: SegmentValue    <= LeftMinutes;
+                // Right Minute
+                STATE_seg3: SegmentValue    <= RightMinutes;
+                // Default value
+                default SegmentValue        <= DefaultValue;
+            endcase 
+        end
     end 
     
 endmodule

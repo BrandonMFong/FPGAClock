@@ -38,7 +38,7 @@ module ClockMux
     
     initial 
     begin
-        Out = 1; // Starting with the positive edge on the seconds signal
+        Out = 1; // Starting with the positive edge for every signal
         i   = 0;
     end
     

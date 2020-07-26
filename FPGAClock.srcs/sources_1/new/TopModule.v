@@ -41,7 +41,8 @@ module TopModule
     // <NAME>_<Source>_<Destination[0],Destination[1],Destination[2], ... Destination[n],Destination[n+1]>
     wire            Seconds_ClockMux_Clock_DecimalPointDisplay,
                     reset_ControlCenter_Clock,
-                    QuarterSeconds_ClockMux_SegDisplay;
+                    QuarterSeconds_ClockMux_SegDisplay,
+                    MODE_ShowSeconds_ControlCenter_SevenSegment;
     wire [3 : 0]    SegmentDisplay_SegDisplay_SevenSegment;
     wire [6 : 0]    LeftSeconds_SSDTranslation_SevenSegment,
                     RightSeconds_SSDTranslation_SevenSegment,
@@ -111,6 +112,7 @@ module TopModule
             .LeftHours(LeftHours_SSDTranslation_SevenSegment),
             .RightHours(RightHours_SSDTranslation_SevenSegment),
             .DefaultValue(DefaultSSDValue_SSDTranslation_SevenSegment),
+            .MODE_ShowSeconds(MODE_ShowSeconds_ControlCenter_SevenSegment),
             
             // OUT
             .SegmentValue(seg)
@@ -168,7 +170,8 @@ module TopModule
             .reset(reset_ControlCenter_Clock),
             .increase(),
             .decrease(),
-            .MODE_Setup()
+            .MODE_Setup(),
+            .MODE_ShowSeconds(MODE_ShowSeconds_ControlCenter_SevenSegment)
         );
     
     // RightSeconds
