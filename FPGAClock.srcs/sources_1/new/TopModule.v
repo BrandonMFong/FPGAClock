@@ -46,8 +46,8 @@ module TopModule
                     MODE_ShowSeconds_ControlCenter_SevenSegment,
                     increase_ControlCenter_PulseWidthModulation,
                     increase_PulseWidthModulation_Clock,
-                    MODE_Setup_ControlCenter_Clock,
-                    MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock;
+                    MODE_Setup_ControlCenter_Clock;
+                    // MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock;
                     // DebouncePulse_ClockMux_Clock;
     wire [3 : 0]    SegmentDisplay_SegDisplay_SevenSegment;
     wire [6 : 0]    LeftSeconds_SSDTranslation_SevenSegment,
@@ -92,7 +92,7 @@ module TopModule
             .Seconds(Seconds_ClockMux_Clock_DecimalPointDisplay),
             .MODE_Setup(MODE_Setup_ControlCenter_Clock),
             .increase(increase_PulseWidthModulation_Clock),
-            .IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock),
+            // .IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock),
             // .DebouncePulse(DebouncePulse_ClockMux_Clock),
             
             // OUT 
@@ -196,8 +196,8 @@ module TopModule
             .increase(increase_ControlCenter_PulseWidthModulation),
             .decrease(),
             .MODE_Setup(MODE_Setup_ControlCenter_Clock),
-            .MODE_ShowSeconds(MODE_ShowSeconds_ControlCenter_SevenSegment),
-            .MODE_IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock)
+            .MODE_ShowSeconds(MODE_ShowSeconds_ControlCenter_SevenSegment)
+            // .MODE_IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock)
         );
     
     // RightSeconds
@@ -329,7 +329,7 @@ module TopModule
         mod8
         (
             // IN
-            .IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock),
+            // .IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock),
             
             // OUT 
             .led(led)
