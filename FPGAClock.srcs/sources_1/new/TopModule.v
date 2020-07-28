@@ -46,7 +46,7 @@ module TopModule
                     MODE_ShowSeconds_ControlCenter_SevenSegment,
                     increase_ControlCenter_PulseWidthModulation,
                     increase_PulseWidthModulation_Clock,
-                    MODE_Setup_ControlCenter_Clock;
+                    MODE_Setup_ControlCenter_Clock_DecimalPointDisplay;
                     // MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock;
                     // DebouncePulse_ClockMux_Clock;
     wire [3 : 0]    SegmentDisplay_SegDisplay_SevenSegment;
@@ -90,7 +90,7 @@ module TopModule
             .clk(clk),
             .reset(reset_ControlCenter_Clock),
             .Seconds(Seconds_ClockMux_Clock_DecimalPointDisplay),
-            .MODE_Setup(MODE_Setup_ControlCenter_Clock),
+            .MODE_Setup(MODE_Setup_ControlCenter_Clock_DecimalPointDisplay),
             .increase(increase_PulseWidthModulation_Clock),
             // .IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock),
             // .DebouncePulse(DebouncePulse_ClockMux_Clock),
@@ -195,7 +195,7 @@ module TopModule
             .reset(reset_ControlCenter_Clock),
             .increase(increase_ControlCenter_PulseWidthModulation),
             .decrease(),
-            .MODE_Setup(MODE_Setup_ControlCenter_Clock),
+            .MODE_Setup(MODE_Setup_ControlCenter_Clock_DecimalPointDisplay),
             .MODE_ShowSeconds(MODE_ShowSeconds_ControlCenter_SevenSegment)
             // .MODE_IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock)
         );
@@ -301,6 +301,7 @@ module TopModule
         (
             // IN
             .Seconds(Seconds_ClockMux_Clock_DecimalPointDisplay),
+            .IsInSetup(MODE_Setup_ControlCenter_Clock_DecimalPointDisplay),
             
             // OUT 
             .DecimalPoint(dp)
@@ -329,7 +330,7 @@ module TopModule
         mod8
         (
             // IN
-            // .IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock),
+            .In(increase_PulseWidthModulation_Clock),
             
             // OUT 
             .led(led)

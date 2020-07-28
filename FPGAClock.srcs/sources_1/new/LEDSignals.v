@@ -8,10 +8,15 @@
 
 
 module LEDSignals
+/*** PARAMETERS ***/
+#(parameter
+    // WL
+    LEDIndex  = 0
+)
 /*** IN/OUT ***/
 (
     // IN
-    // input   IsMilitaryTime,
+    input   In,
     
     // OUT
     // These outputs should output wires that define states
@@ -23,5 +28,5 @@ module LEDSignals
 
     // So initial state for switches and led is 0
     // assign led[15]  = IsMilitaryTime;
-    assign led[15]  = 0;
+    assign led[LEDIndex]  = 0;
 endmodule

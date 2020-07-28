@@ -41,10 +41,10 @@ module ControlCenter
 );
 
     // assign MODE_Setup           = sw[0] ? 1 : 0;
-    assign reset                = (sw[15] && btnC) ? 1 :0;
-    assign increase             = (MODE_Setup && btnU) ? 1 : 0;
-    assign decrease             = (MODE_Setup && btnD) ? 1 : 0;
+    assign reset                = (sw[15] && btnC);
+    assign increase             = (MODE_Setup && btnU);
+    assign decrease             = (MODE_Setup && btnD);
     assign MODE_ShowSeconds     = sw[0];
     assign MODE_Setup           = sw[1];
-    assign MODE_IsMilitaryTime  = sw[15];
+    // assign MODE_IsMilitaryTime  = sw[15];
 endmodule
