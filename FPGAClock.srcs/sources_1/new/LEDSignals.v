@@ -27,6 +27,7 @@ module LEDSignals
 );
 
     // So initial state for switches and led is 0
-    // assign led[15]  = IsMilitaryTime;
     assign led[LEDIndex]  = In;
+    assign led[14] = 1;
+    assign led[13] = 0;
 endmodule

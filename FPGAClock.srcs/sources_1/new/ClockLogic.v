@@ -22,7 +22,7 @@ module ClockLogic
                     Pulse, // Whatever is being passed, i.e. seconds, clock, debounce
                     // MODE_Setup,
                     // DebouncePulse,
-                    IsMilitaryTime,
+                    IsMilitaryTime, // There is something wrong with this flag.  It is not being passed correctly 
             
     // OUT
     // This time I want to output only one register
@@ -64,23 +64,14 @@ module ClockLogic
         
         // Start time for Military time is 00:00
         // For non military is 12:00 AM
-        // This is a problem because it does not go through 3 - 9 
-        // How do I apply this military time during run time
-        // Somehow the military time flag is one but I do not know how, the switch is in the down position
-        if(IsMilitaryTime)
-        begin
-            hourL                   = 0;
-            hourR                   = 0;
-            hourL_segment_threshold = 1;
-            hourR_segment_threshold = 3;
-        end
-        else 
-        begin
-            hourL                   = 1;
-            hourR                   = 2;
-            hourL_segment_threshold = 1;
-            hourR_segment_threshold = 1;
-        end
+        hourL                   = 0;
+        hourR                   = 0;
+        hourL_segment_threshold = 2;
+        hourR_segment_threshold = 3;
+        // hourL                   = IsMilitaryTime ? 1 : 1;
+        // hourR                   = IsMilitaryTime ? 1 : 2;
+        // hourL_segment_threshold = IsMilitaryTime ? 2 : 1;
+        // hourR_segment_threshold = IsMilitaryTime ? 3 : 1;
     end 
     
     // The pulse increments the time
@@ -112,7 +103,7 @@ module ClockLogic
                                 hourR <= 0;
                                 hourL <= 0;
                             end
-                            else if ((hourR == 9) && (hourL <= hourL_segment_threshold))
+                            else if ((hourR == 9) && (hourL < hourL_segment_threshold))
                             begin
                                 hourR <= 0;
                                 hourL <= hourL + 1;
