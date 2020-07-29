@@ -8,7 +8,7 @@
 
 // TODO code pwm 
 
-module TopModule
+module VClock
 /*** PARAMETERS ***/
 #(parameter
     // WL
@@ -309,11 +309,12 @@ module TopModule
     
     
     // DecimalPointDisplay
-    PulseWidthModulation
+    Debounce
         #(
             .CLOCKSPEED(CLOCKSPEED),
-            .SpeedUpThreshold(5),
-            .DivDefault(100000)
+            .DebounceThreshold(1000000),
+            .IncreaseFrequencyThreshold(120),
+            .DecreaseFactor(100)
         )
         mod7
         (
