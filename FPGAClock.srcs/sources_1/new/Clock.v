@@ -21,7 +21,7 @@ module Clock
                     Seconds, // Signal for clock
                     MODE_Setup,
                     increase,
-                    // IsMilitaryTime,
+                    IsMilitaryTime,
             
     // OUT
     // This time I want to output only one register
@@ -56,7 +56,7 @@ module Clock
     ClockLogic #(.CLOCKSPEED(CLOCKSPEED))
     mod0_Seconds
     (
-        .reset(reset),.Pulse(Pulse),
+        .reset(reset),.Pulse(Pulse),.IsMilitaryTime(IsMilitaryTime),
         .LeftSeconds(wire_secL),.RightSeconds(wire_secR),
         .LeftMinutes(wire_minL),.RightMinutes(wire_minR),
         .LeftHours(wire_hourL),.RightHours(wire_hourR)

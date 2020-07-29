@@ -46,8 +46,8 @@ module VClock
                     MODE_ShowSeconds_ControlCenter_SevenSegment,
                     increase_ControlCenter_PulseWidthModulation,
                     increase_PulseWidthModulation_Clock,
-                    MODE_Setup_ControlCenter_Clock_DecimalPointDisplay;
-                    // MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock;
+                    MODE_Setup_ControlCenter_Clock_DecimalPointDisplay,
+                    MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock;
                     // DebouncePulse_ClockMux_Clock;
     wire [3 : 0]    SegmentDisplay_SegDisplay_SevenSegment;
     wire [6 : 0]    LeftSeconds_SSDTranslation_SevenSegment,
@@ -92,8 +92,7 @@ module VClock
             .Seconds(Seconds_ClockMux_Clock_DecimalPointDisplay),
             .MODE_Setup(MODE_Setup_ControlCenter_Clock_DecimalPointDisplay),
             .increase(increase_PulseWidthModulation_Clock),
-            // .IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock),
-            // .DebouncePulse(DebouncePulse_ClockMux_Clock),
+            .IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock),
             
             // OUT 
             .LeftSeconds(LeftSeconds_Clock_SSDTranslation),
@@ -159,22 +158,6 @@ module VClock
             .Out(QuarterSeconds_ClockMux_SegDisplay)
         );
     
-    // // ToDebouncePulse
-    // ClockMux
-    //     #(
-    //         .CLOCKSPEED(CLOCKSPEED),
-    //         .WL_Counter(clogb2(CLOCKSPEED)), // This might throw an error because is it really returning a constant?
-    //         .Partition(50000) 
-    //     )
-    //     mod2_ToDebouncePulse
-    //     (
-    //         // IN
-    //         .clk(clk),
-
-    //         // OUT 
-    //         .Out(DebouncePulse_ClockMux_Clock)
-    //     );
-    
     // ControlCenter
     ControlCenter
         #(
@@ -196,8 +179,8 @@ module VClock
             .increase(increase_ControlCenter_PulseWidthModulation),
             .decrease(),
             .MODE_Setup(MODE_Setup_ControlCenter_Clock_DecimalPointDisplay),
-            .MODE_ShowSeconds(MODE_ShowSeconds_ControlCenter_SevenSegment)
-            // .MODE_IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock)
+            .MODE_ShowSeconds(MODE_ShowSeconds_ControlCenter_SevenSegment),
+            .MODE_IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock)
         );
     
     // RightSeconds
@@ -328,11 +311,23 @@ module VClock
     
     
     // LEDSignals
-    LEDSignals
+    // LEDSignals
+    //     mod8
+    //     (
+    //         // IN
+    //         .In(increase_PulseWidthModulation_Clock),
+            
+    //         // OUT 
+    //         .led(led)
+    //     );
+    
+    
+    // LEDSignals
+    LEDSignals #(.LEDIndex(15))
         mod8
         (
             // IN
-            .In(increase_PulseWidthModulation_Clock),
+            .In(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock),
             
             // OUT 
             .led(led)

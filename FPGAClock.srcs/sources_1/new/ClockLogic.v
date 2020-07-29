@@ -22,7 +22,7 @@ module ClockLogic
                     Pulse, // Whatever is being passed, i.e. seconds, clock, debounce
                     // MODE_Setup,
                     // DebouncePulse,
-                    // IsMilitaryTime,
+                    IsMilitaryTime,
             
     // OUT
     // This time I want to output only one register
@@ -67,20 +67,20 @@ module ClockLogic
         // This is a problem because it does not go through 3 - 9 
         // How do I apply this military time during run time
         // Somehow the military time flag is one but I do not know how, the switch is in the down position
-        // if(IsMilitaryTime)
-        // begin
+        if(IsMilitaryTime)
+        begin
             hourL                   = 0;
             hourR                   = 0;
-            hourL_segment_threshold = 2;
-            hourR_segment_threshold = 4;
-        // end
-        // else 
-        // begin
-            // hourL                   = 1;
-            // hourR                   = 2;
-            // hourL_segment_threshold = 1;
-            // hourR_segment_threshold = 2;
-        // end
+            hourL_segment_threshold = 1;
+            hourR_segment_threshold = 3;
+        end
+        else 
+        begin
+            hourL                   = 1;
+            hourR                   = 2;
+            hourL_segment_threshold = 1;
+            hourR_segment_threshold = 1;
+        end
     end 
     
     // The pulse increments the time
@@ -103,37 +103,42 @@ module ClockLogic
                     if(minL == (minuteL_segment_threshold))
                     begin
                         minL <= 0;
+
                         // Hours
-                        // Have to edit the log here
-                        // It will reset if before it reaches 13
-                        // I think I need to use the IsPM for military time too
-                        // if(hourR == (hourR_segment_threshold))
-                        // begin
-                        //     // if(IsMilitaryTime) hourR    <= 0;
-                        //     // else hourR                  <= 2;
-                        //     hourR   <= 2;
-                        //     if(hourL == (hourL_segment_threshold))
-                        //     begin
-                        //         // if(IsMilitaryTime) hourL    <= 0;
-                        //         // else hourL                  <= 0;
-                        //         hourL   <= 0;
-                        //     end 
-                        //     else hourL <= hourL + 1;
-                        // end 
-                        // else hourR <= hourR + 1;
-                        if((hourR == hourR_segment_threshold) && (hourL == hourL_segment_threshold))
+                        if(IsMilitaryTime)
                         begin
-                            hourR <= 0;
-                            hourL <= 0;
+                            if((hourR == hourR_segment_threshold) && (hourL == hourL_segment_threshold))
+                            begin
+                                hourR <= 0;
+                                hourL <= 0;
+                            end
+                            else if ((hourR == 9) && (hourL <= hourL_segment_threshold))
+                            begin
+                                hourR <= 0;
+                                hourL <= hourL + 1;
+                            end
+                            else
+                            begin
+                                hourR <= hourR + 1;
+                            end
                         end
-                        else if ((hourR == 9) && (hourL < hourL_segment_threshold))
+                        // Else it is AmPm
+                        else 
                         begin
-                            hourR <= 0;
-                            hourL <= hourL + 1;
-                        end
-                        else
-                        begin
-                            hourR <= hourR + 1;
+                            if((hourR == hourR_segment_threshold) && (hourL == hourL_segment_threshold))
+                            begin
+                                hourR <= 0;
+                                hourL <= 0;
+                            end
+                            else if ((hourR == 9) && (hourL <= hourL_segment_threshold))
+                            begin
+                                hourR <= 0;
+                                hourL <= hourL + 1;
+                            end
+                            else
+                            begin
+                                hourR <= hourR + 1;
+                            end
                         end
                     end 
                     else minL <= minL + 1;

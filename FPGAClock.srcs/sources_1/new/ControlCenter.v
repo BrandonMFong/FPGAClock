@@ -46,5 +46,5 @@ module ControlCenter
     assign decrease             = (MODE_Setup && btnD);
     assign MODE_ShowSeconds     = sw[0];
     assign MODE_Setup           = sw[1];
-    // assign MODE_IsMilitaryTime  = sw[15];
+    assign MODE_IsMilitaryTime  = sw[15];
 endmodule
