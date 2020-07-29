@@ -312,7 +312,8 @@ module TopModule
     PulseWidthModulation
         #(
             .CLOCKSPEED(CLOCKSPEED),
-            .SpeedUpThreshold(5)
+            .SpeedUpThreshold(5),
+            .DivDefault(100000)
         )
         mod7
         (

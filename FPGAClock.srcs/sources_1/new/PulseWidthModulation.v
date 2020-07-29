@@ -12,10 +12,11 @@ module PulseWidthModulation
 #(parameter
     // WL
     CLOCKSPEED          = 100000000,
-    SpeedUpThreshold    = 5
+    SpeedUpThreshold    = 5,
+    DivDefault          = 100000
 )
 /*** IN/OUT ***/
-(
+(   
     // IN
     input       clk,
                 In,
@@ -33,27 +34,31 @@ module PulseWidthModulation
 //        In                  = 0;
         i                   = 0;
         ThresholdCounter    = 0;
-        Dividend            = 1000;
+        Dividend            = DivDefault;
     end
     
     always @(posedge clk)
     begin
+//        if(In)
+//        begin
+//            if(ThresholdCounter == SpeedUpThreshold) Dividend <= Dividend / 10; // Log up
+//            else ThresholdCounter <= ThresholdCounter + 1;
+//            if(i == CLOCKSPEED/Dividend)
+//            begin
+//                Out <= ~Out;
+//                i   <= 0;
+//            end
+//            else i <= i + 1;
+//        end
+//        else begin
+//            i                   <= 0;
+//            ThresholdCounter    <= 0;
+//            Dividend            <= 1000;
+//            Out                 <= 0;
+//        end
         if(In)
         begin
-            if(ThresholdCounter == SpeedUpThreshold) Dividend <= Dividend / 10; // Log up
-            else ThresholdCounter <= ThresholdCounter + 1;
-            if(i == CLOCKSPEED/Dividend)
-            begin
-                Out <= ~Out;
-                i   <= 0;
-            end
-            else i <= i + 1;
-        end
-        else begin
-            i                   <= 0;
-            ThresholdCounter    <= 0;
-            Dividend            <= 1000;
-            Out                 <= 0;
+            Out <= ~Out;
         end
     end
 
