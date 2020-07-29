@@ -17,6 +17,7 @@ module SegDisplay
 (
     // IN
     input                   QuarterSeconds,
+                            IsOff,
     // OUT
     output reg [3 : 0]      SegmentDisplay, // Segment display
                             OutAnalogDisplay
@@ -35,11 +36,15 @@ module SegDisplay
     // Turns on segment display
     always @(posedge QuarterSeconds)
     begin
-        // Instead of states, can I shift?
-        if(var[3]) var      <= var ^ 4'b1001; // Left shift will 0 out the reg, xor by 9 to get 4'b0001
-        else var            <= var << 1;
-        SegmentDisplay      <= ~var;
-        OutAnalogDisplay    <= ~var;
+        if(IsOff) OutAnalogDisplay <= 4'b1111;
+        else 
+        begin
+            // Instead of states, can I shift?
+            if(var[3]) var      <= var ^ 4'b1001; // Left shift will 0 out the reg, xor by 9 to get 4'b0001
+            else var            <= var << 1;
+            SegmentDisplay      <= ~var;
+            OutAnalogDisplay    <= ~var;
+        end
     end 
     
 endmodule

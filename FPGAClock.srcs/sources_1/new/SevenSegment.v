@@ -11,13 +11,15 @@ module SevenSegment
 /*** PARAMETERS ***/
 #(parameter
     // WL
-    CLOCKSPEED     = 100000000
+    CLOCKSPEED  = 100000000,
+    OffValue    = 7'b1111111
 )
 /*** IN/OUT ***/
 (
     // IN
     input                   clk,
                             MODE_ShowSeconds,
+                            MODE_Off,
     input [3 : 0]           SegmentDisplay,
     input [6 : 0]           LeftSeconds,
                             RightSeconds,

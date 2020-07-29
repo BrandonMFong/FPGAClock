@@ -47,7 +47,8 @@ module VClock
                     increase_ControlCenter_PulseWidthModulation,
                     increase_PulseWidthModulation_Clock,
                     MODE_Setup_ControlCenter_Clock_DecimalPointDisplay,
-                    MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock;
+                    MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock,
+                    MODE_Off_ControlCenter_SegDisplay;
                     // DebouncePulse_ClockMux_Clock;
     wire [3 : 0]    SegmentDisplay_SegDisplay_SevenSegment;
     wire [6 : 0]    LeftSeconds_SSDTranslation_SevenSegment,
@@ -119,7 +120,7 @@ module VClock
             .RightMinutes(RightMinutes_SSDTranslation_SevenSegment),
             .LeftHours(LeftHours_SSDTranslation_SevenSegment),
             .RightHours(RightHours_SSDTranslation_SevenSegment),
-            .DefaultValue(DefaultSSDValue_SSDTranslation_SevenSegment),
+            .DefaultValue(7'b1000000),
             .MODE_ShowSeconds(MODE_ShowSeconds_ControlCenter_SevenSegment),
             
             // OUT
@@ -180,7 +181,8 @@ module VClock
             .decrease(),
             .MODE_Setup(MODE_Setup_ControlCenter_Clock_DecimalPointDisplay),
             .MODE_ShowSeconds(MODE_ShowSeconds_ControlCenter_SevenSegment),
-            .MODE_IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock)
+            .MODE_IsMilitaryTime(MODE_IsMilitaryTime_ControlCenter_LEDSignals_Clock),
+            .MODE_Off(MODE_Off_ControlCenter_SegDisplay)
         );
     
     // RightSeconds
@@ -269,6 +271,7 @@ module VClock
         (
             // IN
             .QuarterSeconds(QuarterSeconds_ClockMux_SegDisplay),
+            .IsOff(MODE_Off_ControlCenter_SegDisplay),
             
             // OUT 
             .SegmentDisplay(SegmentDisplay_SegDisplay_SevenSegment),
@@ -295,9 +298,9 @@ module VClock
     Debounce
         #(
             .CLOCKSPEED(CLOCKSPEED),
-            .DebounceThreshold(500000),
-            .IncreaseFrequencyThreshold(500),
-            .DecreaseFactor(100)
+            .DebounceThreshold(100000),
+            .IncreaseFrequencyThreshold(2000),// The value when reached will increase the incrementation speed
+            .DecreaseFactor(50)
         )
         mod7
         (
