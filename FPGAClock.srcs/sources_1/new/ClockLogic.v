@@ -6,6 +6,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+// TODO put ismilitarytime flag 
+
 // This is the back logic that increments the time for seconds
 module ClockLogic
 /*** PARAMETERS ***/
@@ -105,20 +107,34 @@ module ClockLogic
                         // Have to edit the log here
                         // It will reset if before it reaches 13
                         // I think I need to use the IsPM for military time too
-                        if(hourR == (hourR_segment_threshold))
+                        // if(hourR == (hourR_segment_threshold))
+                        // begin
+                        //     // if(IsMilitaryTime) hourR    <= 0;
+                        //     // else hourR                  <= 2;
+                        //     hourR   <= 2;
+                        //     if(hourL == (hourL_segment_threshold))
+                        //     begin
+                        //         // if(IsMilitaryTime) hourL    <= 0;
+                        //         // else hourL                  <= 0;
+                        //         hourL   <= 0;
+                        //     end 
+                        //     else hourL <= hourL + 1;
+                        // end 
+                        // else hourR <= hourR + 1;
+                        if((hourR == hourR_segment_threshold) && (hourL == hourL_segment_threshold))
                         begin
-                            // if(IsMilitaryTime) hourR    <= 0;
-                            // else hourR                  <= 2;
-                            hourR   <= 2;
-                            if(hourL == (hourL_segment_threshold))
-                            begin
-                                // if(IsMilitaryTime) hourL    <= 0;
-                                // else hourL                  <= 0;
-                                hourL   <= 0;
-                            end 
-                            else hourL <= hourL + 1;
-                        end 
-                        else hourR <= hourR + 1;
+                            hourR <= 0;
+                            hourL <= 0;
+                        end
+                        else if ((hourR == 9) && (hourL < hourL_segment_threshold))
+                        begin
+                            hourR <= 0;
+                            hourL <= hourL + 1;
+                        end
+                        else
+                        begin
+                            hourR <= hourR + 1;
+                        end
                     end 
                     else minL <= minL + 1;
                 end 

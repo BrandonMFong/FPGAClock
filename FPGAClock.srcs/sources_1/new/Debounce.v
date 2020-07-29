@@ -41,16 +41,16 @@ module Debounce
     begin
         if(In)
         begin
-            // Out <= ~Out;
-            if(i == DThresh) 
+            if(i == DThresh) // If I held on to the button enough to trigger an increment
             begin
+                // Will increase the speed of the increase if this is met
                 if(j == IncreaseFrequencyThreshold) 
                 begin
                     DThresh             <= DebounceThreshold / DecreaseFactor; // Decrease the threshold to make it faster
                     j                   <= 0;
                     ThresholdReached    <= 1;
                 end
-                else j <= !ThresholdReached ? j + 1 : j + 0;
+                else j <= !ThresholdReached ? j + 1 : j + 0; // Will not set this to anything else since we are already up to speed 
                 Out <= ~Out;
                 i   <= 0;
             end

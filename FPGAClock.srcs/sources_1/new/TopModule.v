@@ -312,8 +312,8 @@ module VClock
     Debounce
         #(
             .CLOCKSPEED(CLOCKSPEED),
-            .DebounceThreshold(1000000),
-            .IncreaseFrequencyThreshold(120),
+            .DebounceThreshold(500000),
+            .IncreaseFrequencyThreshold(500),
             .DecreaseFactor(100)
         )
         mod7
